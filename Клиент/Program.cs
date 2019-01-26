@@ -16,17 +16,21 @@ namespace Клиент
     class Program
     {
 
-        static void sendcomand(string userName,out string message,out int comand)
+        static void sendcomand(bool test, string userName, out string message, out int comand)
         {
             comand = -1;
             string type = "kill";
             string find = "kill";
             int kind = -1;
+            message = "";
+            
+            
             // ввод сообщения
             Console.WriteLine("Введите индекс команды:");
             Console.WriteLine("1 - отправить файл отчета");
             Console.WriteLine("2 - Выполнить поиск");
-            message = Console.ReadLine();
+            if (test == false) message = Console.ReadLine();
+            else message = "2";
             comand = Convert.ToInt16(message);
             switch (comand)
             {
@@ -36,10 +40,10 @@ namespace Клиент
                         Console.WriteLine("1 - Общий");
                         Console.WriteLine("2 - Отладка");
                         Console.WriteLine("3 - Авария");
-                        type = Console.ReadLine();
-                        comand = Convert.ToInt32(message);
+                        if (test == false) type = Console.ReadLine();
                         
-                                             
+
+
                         break;
                     }
                 case 2:
@@ -48,9 +52,10 @@ namespace Клиент
                         Console.WriteLine("1 - по пользователю");
                         Console.WriteLine("2 - по типу отчета");
                         Console.WriteLine("3 - по дате");
-                        
-                        kind = Convert.ToInt16(Console.ReadLine());
-                        switch(kind)
+
+                        if (test == false) kind = Convert.ToInt16(Console.ReadLine());
+                        else kind = 1;
+                        switch (kind)
                         {
                             case 1:
                                 {
@@ -70,17 +75,18 @@ namespace Клиент
                                     Console.WriteLine("Введите дату в формате - 00.00.0000");
                                     break;
                                 }
-                            
+
                         }
-                        
-                        find = Console.ReadLine();
+
+                        if (test == false) find = Console.ReadLine();
+                        else find = "dr";
 
                         break;
                     }
 
             }
             message = String.Format("{0}*{1}*{2}*{3}*{4}", userName, message, type, find, kind);
-            
+
 
         }
         static void SendFile(NetworkStream stream)
@@ -119,25 +125,24 @@ namespace Клиент
 
                 string message1 = builder1.ToString();
                 if (message1 == "") break;
-                Console.WriteLine(message1.Replace("***",""));
-                if ((message1.Contains("Доступ") == true)|| (message1.Contains("***") == true)) break;
+                Console.WriteLine(message1.Replace("***", ""));
+                if ((message1.Contains("Доступ") == true) || (message1.Contains("***") == true)) break;
                 //if (message1 == " ") Console.WriteLine(" ");
             }
         }
         static void LogIn(NetworkStream stream, string user, string pass)
         {
-            
+
             string message = String.Format("{0}*{1}", user, pass);
             // преобразуем сообщение в массив байтов
             byte[] data = Encoding.Unicode.GetBytes(message);
             // отправка сообщения
             stream.Write(data, 0, data.Length);
-            
+
 
         }
         const int port = 8888;
         const string address = "127.0.0.1";
-
         static void Main(string[] args)
         {
 
@@ -147,7 +152,7 @@ namespace Клиент
             string password = Console.ReadLine();
             TcpClient client = null;
             int comand = -1;
-            
+
             try
             {
                 byte[] data;//
@@ -185,7 +190,7 @@ namespace Клиент
                     Console.ReadLine();
                     Console.Clear();
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -197,6 +202,7 @@ namespace Клиент
                 client.Close();
             }
         }
-        
+
     }
 }
+
