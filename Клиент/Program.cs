@@ -9,6 +9,7 @@ using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.IO;
+using ServerClientLib;
 
 namespace Клиент
 {
@@ -23,8 +24,8 @@ namespace Клиент
             string find = "kill";
             int kind = -1;
             message = "";
-            
-            
+
+
             // ввод сообщения
             Console.WriteLine("Введите индекс команды:");
             Console.WriteLine("1 - отправить файл отчета");
@@ -41,7 +42,7 @@ namespace Клиент
                         Console.WriteLine("2 - Отладка");
                         Console.WriteLine("3 - Авария");
                         if (test == false) type = Console.ReadLine();
-                        
+
 
 
                         break;
@@ -166,7 +167,8 @@ namespace Клиент
                 while (true)
                 {
                     string comsend = "";
-                    sendcomand(test, userName, out comsend, out comand);
+                    //sendcomand(test, userName, out comsend, out comand);
+                    ServerClientLib.ServClintLib.sendcomand(test, userName, out comsend, out comand);
                     // преобразуем сообщение в массив байтов
                     data = Encoding.Unicode.GetBytes(comsend);
                     // отправка сообщения
@@ -206,4 +208,3 @@ namespace Клиент
 
     }
 }
-
