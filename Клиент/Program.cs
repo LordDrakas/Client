@@ -162,10 +162,11 @@ namespace Клиент
                 Reseive(stream);
                 Console.ReadLine();
                 Console.Clear();
+                bool test = false;
                 while (true)
                 {
                     string comsend = "";
-                    sendcomand(userName, out comsend, out comand);
+                    sendcomand(test, userName, out comsend, out comand);
                     // преобразуем сообщение в массив байтов
                     data = Encoding.Unicode.GetBytes(comsend);
                     // отправка сообщения
