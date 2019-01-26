@@ -150,7 +150,7 @@ namespace Клиент
             
             try
             {
-                byte[] data;
+                byte[] data;//
                 client = new TcpClient(address, port);
                 NetworkStream stream = client.GetStream();
                 LogIn(stream, userName, password);
